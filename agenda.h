@@ -2,11 +2,12 @@
 #define TAM_NOME 300
 #define TAM_SOBRENOME 300
 #define TAM_EMAIL 300
+#define TAM_TEL
 
 typedef struct {
     char Nome[TAM_NOME] ;
     char Sobrenome[TAM_SOBRENOME];
-    int Telefone;
+    char Telefone[TAM_TEL];
     char Email[TAM_EMAIL];
 } Agenda;
 
