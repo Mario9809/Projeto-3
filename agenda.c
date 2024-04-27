@@ -74,3 +74,16 @@ ERROS deletar(Agenda agenda[], int *pos) {
     return encontrado ? OK : NAO_ENCONTRADO;
 }
 
+ERROS salvar(Agenda agenda[], int *pos) {
+    FILE *arquivo = fopen(FILENAME, "wb");
+    if (arquivo == NULL) {
+        return NAO_ENCONTRADO;
+    }
+
+    fwrite(agenda, sizeof(Agenda), *pos, arquivo);
+    fclose(arquivo);
+    printf("contato salvo com sucesso!!\n");
+    return OK;
+}
+
+
