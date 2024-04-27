@@ -36,5 +36,20 @@ ERROS adicionar(Agenda agenda[], int *pos) {
     return OK;
 }
 
+ERROS listar(Agenda agenda[], int *pos) {
+    if (*pos == 0) {
+        return SEM_CONTATOS;
+    }
+
+    printf("Lista de contatos:\n");
+    for (int i = 0; i < *pos; i++) {
+        printf("Nome: %s %s, Email: %s, Telefone: %s\n", agenda[i].Nome, agenda[i].Sobrenome, agenda[i].Email, agenda[i].Telefone);
+    }
+
+    return OK;
+}
+
+
+
 
 
