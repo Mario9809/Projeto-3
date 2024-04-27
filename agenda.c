@@ -46,8 +46,31 @@ ERROS listar(Agenda agenda[], int *pos) {
         printf("Nome: %s %s, Email: %s, Telefone: %s\n", agenda[i].Nome, agenda[i].Sobrenome, agenda[i].Email, agenda[i].Telefone);
     }
 
-
     return OK;
 }
 
+ERROS deletar(Agenda agenda[], int *pos) {
+    if (*pos == 0) {
+        return SEM_CONTATOS;
+    }
+
+    char telefone[TAM_TELEFONE];
+    printf("Digite o número de telefone do contato que deseja deletar: ");
+    scanf("%15s", telefone);
+    clearBuffer();
+
+    int encontrado = 0;
+    for (int i = 0; i < *pos; i++) {
+        if (strcmp(agenda[i].Telefone, telefone) == 0) {
+            encontrado = 1;
+            for (int j = i; j < *pos - 1; j++) {
+                agenda[j] = agenda[j + 1];
+            }
+            (*pos)--;
+            break;
+        }
+    }
+     printf("contato deletado com sucesso!!\n");
+    return encontrado ? OK : NAO_ENCONTRADO;
+}
 
