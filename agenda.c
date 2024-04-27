@@ -86,4 +86,15 @@ ERROS salvar(Agenda agenda[], int *pos) {
     return OK;
 }
 
+ERROS carregar(Agenda agenda[], int *pos) {
+    FILE *arquivo = fopen(FILENAME, "rb");
+    if (arquivo == NULL) {
+        return NAO_ENCONTRADO;
+    }
+
+    *pos = fread(agenda, sizeof(Agenda), TOTAL, arquivo);
+    fclose(arquivo);
+    printf("contato carregado com sucesso!!\n");
+    return OK;
+}
 
