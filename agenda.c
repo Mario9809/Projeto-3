@@ -46,10 +46,8 @@ ERROS listar(Agenda agenda[], int *pos) {
         printf("Nome: %s %s, Email: %s, Telefone: %s\n", agenda[i].Nome, agenda[i].Sobrenome, agenda[i].Email, agenda[i].Telefone);
     }
 
+
     return OK;
 }
-
-
-
 
 
