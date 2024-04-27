@@ -2,24 +2,15 @@
 #define TAM_NOME 300
 #define TAM_SOBRENOME 300
 #define TAM_EMAIL 300
-#define TAM_TEL
+#define TAM_TEL 15
 
 typedef struct {
-    char Nome[TAM_NOME] ;
+    char Nome[TAM_NOME];
     char Sobrenome[TAM_SOBRENOME];
-    char Telefone[TAM_TEL];
     char Email[TAM_EMAIL];
+    char Telefone[TAM_TEL];
 } Agenda;
-
 
 typedef enum {OK, MAX_CONTATOS, SEM_CONTATOS, NAO_ENCONTRADO} ERROS;
 
-typedef ERROS (*funcao)(Tarefa[], int*);
-
-ERROS adicionar(Agenda agenda[], int *pos);
-ERROS listar(Agenda agenda[], int *pos);
-ERROS deletar(Agenda agenda[], int *pos);
-ERROS salvar(Agenda agenda[], int *pos);
-ERROS carregar(Agenda agenda[], int *pos);
-
-void clearBuffer();
+typedef ERROS (*funcao)(Agenda[], int*);
