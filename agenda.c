@@ -15,6 +15,8 @@ ERROS adicionar(Agenda agenda[], int *pos) {
         return MAX_CONTATOS;
     }
 
+    char email[300];
+
     printf("Digite o nome: ");
     scanf("%299s", agenda[*pos].Nome);
     clearBuffer();
@@ -23,18 +25,33 @@ ERROS adicionar(Agenda agenda[], int *pos) {
     scanf("%299s", agenda[*pos].Sobrenome);
     clearBuffer();
 
-    printf("Digite o email: ");
-    scanf("%299s", agenda[*pos].Email);
-    clearBuffer();
+    do {
+        printf("Digite o email: ");
+        scanf("%299s", email); // Use a variável 'email' aqui
+        clearBuffer();
+
+        int pos_arroba = strcspn(email, "@");
+        int pos_ponto = strcspn(email, ".");
+
+        if (pos_arroba != strlen(email) && pos_ponto != strlen(email) && pos_arroba < pos_ponto) {
+            break;
+        } else {
+            printf("Formato de e-mail inválido. Por favor, insira um e-mail válido.\n");
+        }
+    } while (1);
+
+    strcpy(agenda[*pos].Email, email);
 
     printf("Digite o telefone: ");
     scanf("%15s", agenda[*pos].Telefone);
     clearBuffer();
 
     (*pos)++;
-    printf("contato salvo com sucesso!!\n");
+    printf("Contato salvo com sucesso!!\n");
     return OK;
 }
+
+
 
 ERROS listar(Agenda agenda[], int *pos) {
     if (*pos == 0) {
@@ -97,3 +114,4 @@ ERROS carregar(Agenda agenda[], int *pos) {
     printf("Agenda carregada com sucesso!!\n");
     return OK;
 }
+
