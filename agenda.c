@@ -42,14 +42,34 @@ ERROS adicionar(Agenda agenda[], int *pos) {
 
     strcpy(agenda[*pos].Email, email);
 
-    printf("Digite o telefone: ");
-    scanf("%15s", agenda[*pos].Telefone);
-    clearBuffer();
+    // Loop para garantir que o número de telefone seja único
+    do {
+        printf("Digite o telefone: ");
+        scanf("%15s", agenda[*pos].Telefone);
+        clearBuffer();
+
+        // Verifica se o número de telefone já existe em algum contato existente
+        int telefoneExistente = 0;
+        for (int i = 0; i < *pos; i++) {
+            if (strcmp(agenda[i].Telefone, agenda[*pos].Telefone) == 0) {
+                printf("Erro: Este número de telefone já está associado a outro contato.\n");
+                telefoneExistente = 1;
+                break;
+            }
+        }
+
+        // Se o número de telefone não existir em nenhum contato, sai do loop
+        if (!telefoneExistente) {
+            break;
+        }
+
+    } while (1);
 
     (*pos)++;
     printf("Contato salvo com sucesso!!\n");
     return OK;
 }
+
 
 
 
