@@ -13,4 +13,13 @@ typedef struct {
 
 typedef enum {OK, MAX_CONTATOS, SEM_CONTATOS, NAO_ENCONTRADO} ERROS;
 
-typedef ERROS (*funcao)(Agenda[], int*);
+typedef enum {PESSOAL, TRABALHO} TIPO_CONTATO;
+
+typedef ERROS (funcao)(Agenda[], int);
+
+ERROS adicionar(Agenda agenda[], int *pos);
+ERROS listar(Agenda agenda[], int *pos);
+ERROS deletar(Agenda agenda[], int *pos);
+ERROS salvar(Agenda agenda[], int *pos);
+ERROS carregar(Agenda agenda[], int *pos);
+ERROS alterar(Agenda agenda[], int *pos);

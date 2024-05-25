@@ -3,7 +3,8 @@
 #include <string.h>
 
 #define TAM_TELEFONE 16
-#define FILENAME "agenda.bin"
+#define FILENAME_PESSOAL "agenda_pessoal.bin"
+#define FILENAME_TRABALHO "agenda_trabalho.bin"
 
 void clearBuffer() {
     int c;
@@ -42,13 +43,13 @@ ERROS adicionar(Agenda agenda[], int *pos) {
 
     strcpy(agenda[*pos].Email, email);
 
-    // Loop para garantir que o número de telefone seja único
+    
     do {
         printf("Digite o telefone: ");
         scanf("%15s", agenda[*pos].Telefone);
         clearBuffer();
 
-        // Verifica se o número de telefone já existe em algum contato existente
+        
         int telefoneExistente = 0;
         for (int i = 0; i < *pos; i++) {
             if (strcmp(agenda[i].Telefone, agenda[*pos].Telefone) == 0) {
@@ -58,7 +59,7 @@ ERROS adicionar(Agenda agenda[], int *pos) {
             }
         }
 
-        // Se o número de telefone não existir em nenhum contato, sai do loop
+        
         if (!telefoneExistente) {
             break;
         }
@@ -96,7 +97,7 @@ ERROS deletar(Agenda agenda[], int *pos) {
     scanf("%15s", telefone);
     clearBuffer();
 
-    int encontrado = 0;
+int encontrado = 0;
     for (int i = 0; i < *pos; i++) {
         if (strcmp(agenda[i].Telefone, telefone) == 0) {
             encontrado = 1;
@@ -107,31 +108,51 @@ ERROS deletar(Agenda agenda[], int *pos) {
             break;
         }
     }
-     printf("contato deletado com sucesso!!\n");
+    printf("contato deletado com sucesso!!\n");
     return encontrado ? OK : NAO_ENCONTRADO;
 }
 
 ERROS salvar(Agenda agenda[], int *pos) {
-    FILE *arquivo = fopen(FILENAME, "wb");
+    FILE *arquivo = fopen(FILENAME_PESSOAL, "wb");
     if (arquivo == NULL) {
         return NAO_ENCONTRADO;
     }
 
     fwrite(agenda, sizeof(Agenda), *pos, arquivo);
     fclose(arquivo);
-    printf("Agenda salva com sucesso!!\n");
+    printf("Agenda pessoal salva com sucesso!!\n");
+
+    arquivo = fopen(FILENAME_TRABALHO, "wb");
+    if (arquivo == NULL) {
+        return NAO_ENCONTRADO;
+    }
+
+    fwrite(agenda, sizeof(Agenda), *pos, arquivo);
+    fclose(arquivo);
+    printf("Agenda de trabalho salva com sucesso!!\n");
+
     return OK;
 }
 
 ERROS carregar(Agenda agenda[], int *pos) {
-    FILE *arquivo = fopen(FILENAME, "rb");
+    FILE *arquivo = fopen(FILENAME_PESSOAL, "rb");
     if (arquivo == NULL) {
         return NAO_ENCONTRADO;
     }
 
     *pos = fread(agenda, sizeof(Agenda), TOTAL, arquivo);
     fclose(arquivo);
-    printf("Agenda carregada com sucesso!!\n");
+    printf("Agenda pessoal carregada com sucesso!!\n");
+
+    arquivo = fopen(FILENAME_TRABALHO, "rb");
+    if (arquivo == NULL) {
+        return NAO_ENCONTRADO;
+    }
+
+    *pos = fread(agenda, sizeof(Agenda), TOTAL, arquivo);
+    fclose(arquivo);
+    printf("Agenda de trabalho carregada com sucesso!!\n");
+
     return OK;
 }
 
