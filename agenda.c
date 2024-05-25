@@ -43,13 +43,13 @@ ERROS adicionar(Agenda agenda[], int *pos) {
 
     strcpy(agenda[*pos].Email, email);
 
-    
+    // Loop para garantir que o número de telefone seja único
     do {
         printf("Digite o telefone: ");
         scanf("%15s", agenda[*pos].Telefone);
         clearBuffer();
 
-        
+        // Verifica se o número de telefone já existe em algum contato existente
         int telefoneExistente = 0;
         for (int i = 0; i < *pos; i++) {
             if (strcmp(agenda[i].Telefone, agenda[*pos].Telefone) == 0) {
@@ -59,7 +59,7 @@ ERROS adicionar(Agenda agenda[], int *pos) {
             }
         }
 
-        
+        // Se o número de telefone não existir em nenhum contato, sai do loop
         if (!telefoneExistente) {
             break;
         }
@@ -154,5 +154,77 @@ ERROS carregar(Agenda agenda[], int *pos) {
     printf("Agenda de trabalho carregada com sucesso!!\n");
 
     return OK;
+}
+
+ERROS alterar(Agenda agenda[], int *pos) {
+    if (*pos == 0) {
+        return SEM_CONTATOS;
+    }
+
+    char telefone[TAM_TELEFONE];
+    printf("Digite o número de telefone do contato que deseja alterar: ");
+    scanf("%15s", telefone);
+    clearBuffer();
+
+    for (int i = 0; i < *pos; i++) {
+        if (strcmp(agenda[i].Telefone, telefone) == 0) {
+            printf("Contato encontrado. Digite os novos dados.\n");
+
+            // Armazenar os dados antigos
+            char antigoNome[TAM_NOME], antigoSobrenome[TAM_SOBRENOME], antigoEmail[TAM_EMAIL], antigoTelefone[TAM_TEL];
+            strcpy(antigoNome, agenda[i].Nome);
+            strcpy(antigoSobrenome, agenda[i].Sobrenome);
+            strcpy(antigoEmail, agenda[i].Email);
+            strcpy(antigoTelefone, agenda[i].Telefone);
+
+            // Novos dados
+            char novoNome[TAM_NOME], novoSobrenome[TAM_SOBRENOME], novoEmail[TAM_EMAIL], novoTelefone[TAM_TEL];
+
+            printf("Digite o novo nome (atual: %s): ", agenda[i].Nome);
+            scanf("%299s", novoNome);
+            clearBuffer();
+
+            printf("Digite o novo sobrenome (atual: %s): ", agenda[i].Sobrenome);
+            scanf("%299s", novoSobrenome);
+            clearBuffer();
+
+            do {
+                printf("Digite o novo email (atual: %s): ", agenda[i].Email);
+                scanf("%299s", novoEmail);
+                clearBuffer();
+
+                int pos_arroba = strcspn(novoEmail, "@");
+                int pos_ponto = strcspn(novoEmail, ".");
+
+                if (pos_arroba != strlen(novoEmail) && pos_ponto != strlen(novoEmail) && pos_arroba < pos_ponto) {
+                    break;
+                } else {
+                    printf("Formato de e-mail inválido. Por favor, insira um e-mail válido.\n");
+                }
+            } while (1);
+
+            printf("Digite o novo telefone (atual: %s): ", agenda[i].Telefone);
+            scanf("%15s", novoTelefone);
+            clearBuffer();
+
+            // Atualizar os dados
+            strcpy(agenda[i].Nome, novoNome);
+            strcpy(agenda[i].Sobrenome, novoSobrenome);
+            strcpy(agenda[i].Email, novoEmail);
+            strcpy(agenda[i].Telefone, novoTelefone);
+
+            // Imprimir informações alteradas
+            printf("Contato alterado com sucesso!\n");
+            printf("Alterações feitas:\n");
+            printf("Nome: %s -> %s\n", antigoNome, novoNome);
+            printf("Sobrenome: %s -> %s\n", antigoSobrenome, novoSobrenome);
+            printf("Email: %s -> %s\n", antigoEmail, novoEmail);
+            printf("Telefone: %s -> %s\n", antigoTelefone, novoTelefone);
+
+            return OK;
+        }
+    }
+
+    return NAO_ENCONTRADO;
 }
 
